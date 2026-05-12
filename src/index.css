@@ -1,1 +1,87 @@
 @import "tailwindcss";
+
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "DM Sans", "system-ui", "sans-serif";
+  --font-heading: "Plus Jakarta Sans", "DM Sans", "system-ui", "sans-serif";
+
+  --color-background: hsl(210 20% 98%);
+  --color-foreground: hsl(220 25% 10%);
+
+  --color-card: hsl(0 0% 100%);
+  --color-card-foreground: hsl(220 25% 10%);
+
+  --color-popover: hsl(0 0% 100%);
+  --color-popover-foreground: hsl(220 25% 10%);
+
+  --color-primary: hsl(217 72% 44%);
+  --color-primary-foreground: hsl(0 0% 100%);
+
+  --color-secondary: hsl(210 30% 95%);
+  --color-secondary-foreground: hsl(220 25% 10%);
+
+  --color-muted: hsl(210 20% 94%);
+  --color-muted-foreground: hsl(220 10% 46%);
+
+  --color-accent: hsl(160 60% 40%);
+  --color-accent-foreground: hsl(0 0% 100%);
+
+  --color-destructive: hsl(0 72% 51%);
+  --color-destructive-foreground: hsl(0 0% 100%);
+
+  --color-border: hsl(214 20% 90%);
+  --color-input: hsl(214 20% 90%);
+  --color-ring: hsl(217 72% 44%);
+
+  --radius-lg: 0.75rem;
+  --radius-md: calc(0.75rem - 2px);
+  --radius-sm: calc(0.75rem - 4px);
+
+  --shadow-card: 0 1px 3px 0 hsl(220 25% 10% / 0.06), 0 1px 2px -1px hsl(220 25% 10% / 0.06);
+  --shadow-elevated: 0 10px 30px -10px hsl(217 72% 44% / 0.15);
+
+  --background-image-gradient-hero: linear-gradient(135deg, hsl(217 72% 44%), hsl(200 80% 50%));
+  --background-image-gradient-accent: linear-gradient(135deg, hsl(160 60% 40%), hsl(170 70% 45%));
+
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
+
+@utility gradient-hero {
+  background: var(--background-image-gradient-hero);
+}
+
+@utility gradient-accent {
+  background: var(--background-image-gradient-accent);
+}
+
+@utility shadow-card {
+  box-shadow: var(--shadow-card);
+}
+
+@utility shadow-elevated {
+  box-shadow: var(--shadow-elevated);
+}
+
+@utility animate-fade-in {
+  animation: fade-in 0.5s ease-out forwards;
+}
+
+@layer base {
+  *, ::after, ::before, ::file-selector-button {
+    border-color: var(--color-border, currentColor);
+  }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family: var(--font-sans);
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+  }
+}
