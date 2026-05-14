@@ -1,7 +1,5 @@
 @import "tailwindcss";
 
-@import "tailwindcss";
-
 @theme {
   --font-sans: "DM Sans", "system-ui", "sans-serif";
   --font-heading: "Plus Jakarta Sans", "DM Sans", "system-ui", "sans-serif";
