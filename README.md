@@ -1,73 +1,122 @@
-# React + TypeScript + Vite
+# App Right House
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicacao web para simular e comparar opcoes de aquisicao de imovel, como financiamento e consorcio. O projeto usa React no frontend, Supabase para autenticacao e persistência de dados e uma API Node/Express preparada para concentrar regras de negocio e futuras integracoes.
 
-Currently, two official plugins are available:
+## Estrutura
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```text
+.
+|-- src/                  # Frontend React + Vite
+|   |-- components/        # Componentes reutilizaveis
+|   |-- lib/               # Clientes e utilitarios
+|   `-- pages/             # Paginas da aplicacao
+|-- api/                  # Backend Node + Express
+|   `-- src/
+|       |-- routes/        # Rotas HTTP
+|       |-- app.ts         # Configuracao do Express
+|       `-- server.ts      # Inicializacao da API
+|-- public/               # Arquivos estaticos
+`-- package.json          # Scripts e dependencias do frontend
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Tecnologias
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- React 19
+- TypeScript
+- Vite
+- Tailwind CSS 4
+- React Router
+- Supabase
+- Express
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Pre-requisitos
+
+- Node.js instalado
+- npm instalado
+- Credenciais do Supabase configurado
+
+## Variaveis de ambiente
+
+Crie um arquivo `.env` na raiz do projeto com as variaveis usadas pelo frontend:
+
+```env
+VITE_SUPABASE_PROJECT_ID="seu_project_id"
+VITE_SUPABASE_PUBLISHABLE_KEY="sua_chave_publica"
+VITE_SUPABASE_URL="https://seu-projeto.supabase.co"
 ```
+
+O arquivo `.env` nao deve ser versionado.
+
+## Instalacao
+
+Instale as dependencias do frontend: 
+
+```bash
+raiz do projeto
+npm install 
+```
+
+Instale as dependencias da API:
+
+```bash
+cd api
+npm install
+```
+
+## Como rodar
+
+Em um terminal, inicie o frontend:
+
+```bash
+npm run dev
+```
+
+Por padrao, o Vite disponibiliza a aplicacao em:
+
+```text
+http://localhost:5173
+```
+
+Em outro terminal, inicie a API:
+
+```bash
+cd api
+npm run dev
+```
+
+Por padrao, a API roda em:
+
+```text
+http://localhost:3000
+```
+
+Para validar se a API esta ativa, acesse:
+
+```text
+http://localhost:3000/health
+```
+
+## Scripts
+
+Frontend:
+
+```bash
+npm run dev      # inicia o servidor de desenvolvimento
+npm run build    # gera a build de producao
+npm run lint     # executa o lint
+npm run preview  # serve a build localmente
+```
+
+API:
+
+```bash
+npm run dev      # inicia a API em modo desenvolvimento
+npm run build    # compila o TypeScript
+npm run start    # executa a API compilada
+```
+
+## Observacoes de desenvolvimento
+
+- O frontend consome o Supabase diretamente para autenticacao.
+- A API atualmente possui uma rota de health check e esta preparada para receber novas rotas, controllers, services e repositories.
+- As paginas de simulacao ainda estao em desenvolvimento.
