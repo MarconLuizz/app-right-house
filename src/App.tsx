@@ -8,6 +8,7 @@ import MySimulations from './pages/MySimulations'
 import Navbar from './components/Navbar.tsx'
 import Register from './pages/Register.tsx'
 import { supabase } from './lib/supabase.ts'
+import { Toaster } from './components/Toaster.tsx'
 
 function HashScroll() {
     const location = useLocation()
@@ -73,6 +74,7 @@ export default function App() {
                 <Route path="/auth/register" element={<Register />} />
                 <Route path="/my-simulations" element={<Navigate to="/simulation/history" replace />} />
             </Routes>
+            <Toaster />
         </BrowserRouter>
     )
 }

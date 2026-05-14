@@ -1,11 +1,11 @@
 import { UserPlus } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { supabase } from "../lib/supabase";
+import { toast } from "../hook/use-toast";
 
 export default function Register() {
   const [name, setName] = useState("");
@@ -28,10 +28,13 @@ export default function Register() {
       });
 
       if (error) throw error;
-      alert("Conta criada! Verifique seu email para confirmar.");
+      toast({ title: "Sucesso!", description: "Conta criada com sucesso!" });
+      setName("");
+      setEmail("");
+      setPassword("");
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "Nao foi possivel criar a conta.";
-      alert(message);
+      const message = err instanceof Error ? err.message : "Não foi possível criar a conta.";
+      toast({ title: "Erro", description: message, variant: "destructive" });
     } finally {
       setLoading(false);
     }

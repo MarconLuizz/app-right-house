@@ -34,14 +34,16 @@ export default function Home() {
           <p className="text-lg md:text-xl text-primary-foreground/80 max-w-2xl animate-fade-in" style={{ animationDelay: "0.1s" }}>
             Compare financiamento e consórcio de forma simples e descubra a melhor opção para conquistar seu imóvel.
           </p>
-          <Button
-            size="lg"
-            className="mt-4 bg-card text-primary hover:bg-card/90 font-semibold text-base px-8 animate-fade-in"
-            style={{ animationDelay: "0.2s" }}
-            onClick={() => navigate("/simulation")}
-          >
-            Comece agora <ArrowRight className="ml-2 h-5 w-5" />
-          </Button>
+          <div className="flex gap-3 mt-4 flex-col sm:flex-row">
+            <Button
+              size="lg"
+              className="bg-card text-primary hover:bg-card/90 font-semibold text-base px-8 animate-fade-in"
+              style={{ animationDelay: "0.2s" }}
+              onClick={() => navigate("/simulation")}
+            >
+              Comece agora <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+          </div>
         </div>
         <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-primary-foreground/5" />
         <div className="absolute -bottom-32 -left-32 w-[500px] h-[500px] rounded-full bg-primary-foreground/5" />
