@@ -2,6 +2,15 @@
 
 Aplicacao web para simular e comparar opcoes de aquisicao de imovel, como financiamento e consorcio. O projeto usa React no frontend, Supabase para autenticacao e persistência de dados e uma API Node/Express preparada para concentrar regras de negocio e futuras integracoes.
 
+# Integrantes:
+
+ELEONORA DE MELLO GASPARI - Product Menager
+LUIZ ANTONIO DA SILVA MARCON - Desenvolvedor
+FELIPE GODOI CIRINO - Desenvolvedor
+IGOR MARTINS DOS SANTOS - Desenvolvedor
+VICTOR SANTANA COSTA ANJOS - Desenvolvedor
+JOAO VITOR FERNANDES MARQUES -  QA (Quality Assurance)
+
 ## Estrutura
 
 ```text
