@@ -4,12 +4,12 @@ Aplicacao web para simular e comparar opcoes de aquisicao de imovel, como financ
 
 # Integrantes:
 
-ELEONORA DE MELLO GASPARI - Product Menager
-LUIZ ANTONIO DA SILVA MARCON - Desenvolvedor
-FELIPE GODOI CIRINO - Desenvolvedor
-IGOR MARTINS DOS SANTOS - Desenvolvedor
-VICTOR SANTANA COSTA ANJOS - Desenvolvedor
-JOAO VITOR FERNANDES MARQUES -  QA (Quality Assurance)
+ELEONORA DE MELLO GASPARI - Product Menager \n
+LUIZ ANTONIO DA SILVA MARCON - Desenvolvedor \n
+FELIPE GODOI CIRINO - Desenvolvedor \n
+IGOR MARTINS DOS SANTOS - Desenvolvedor \n
+VICTOR SANTANA COSTA ANJOS - Desenvolvedor \n
+JOAO VITOR FERNANDES MARQUES -  QA (Quality Assurance) \n
 
 ## Estrutura
 
