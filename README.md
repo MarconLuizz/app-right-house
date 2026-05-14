@@ -4,7 +4,7 @@ Aplicacao web para simular e comparar opcoes de aquisicao de imovel, como financ
 
 # Integrantes:
 
-ELEONORA DE MELLO GASPARI - Product Manager
+ELEONORA DE MELLO GASPARI - Product Manager & QA
 
 LUIZ ANTONIO DA SILVA MARCON - Desenvolvedor
 
