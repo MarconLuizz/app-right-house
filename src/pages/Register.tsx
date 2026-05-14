@@ -1,29 +1,36 @@
-import { LogIn } from "lucide-react";
+import { UserPlus } from "lucide-react";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { supabase } from "../lib/supabase";
 
-export default function Login() {
+export default function Register() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
-      if (error) throw error;
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: `${window.location.origin}/auth/login`,
+          data: { name },
+        },
+      });
 
-      navigate("/home");
+      if (error) throw error;
+      alert("Conta criada! Verifique seu email para confirmar.");
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "Nao foi possivel concluir a autenticacao.";
+      const message = err instanceof Error ? err.message : "Nao foi possivel criar a conta.";
       alert(message);
     } finally {
       setLoading(false);
@@ -35,11 +42,16 @@ export default function Login() {
       <div className="w-full max-w-md">
         <div className="rounded-2xl bg-card p-8 shadow-elevated">
           <div className="mb-8 text-center">
-            <h1 className="font-heading text-2xl font-bold text-foreground">Entrar</h1>
-            <p className="mt-1 text-sm text-muted-foreground">Acesse sua conta para continuar</p>
+            <h1 className="font-heading text-2xl font-bold text-foreground">Criar conta</h1>
+            <p className="mt-1 text-sm text-muted-foreground">Crie sua conta para salvar simulacoes</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <Label className="text-foreground">Nome</Label>
+              <Input type="text" placeholder="Seu nome completo" value={name} onChange={(e) => setName(e.target.value)} required />
+            </div>
+
             <div>
               <Label className="text-foreground">Email</Label>
               <Input type="email" placeholder="seu@email.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
@@ -51,14 +63,14 @@ export default function Login() {
             </div>
 
             <Button type="submit" className="w-full" disabled={loading}>
-              <LogIn className="h-4 w-4" />
-              Entrar
+              <UserPlus className="h-4 w-4" />
+              Criar conta
             </Button>
           </form>
 
           <div className="mt-6 text-center">
-            <Link to="/auth/register" className="text-sm text-primary hover:underline">
-              Nao tem conta? Criar uma
+            <Link to="/auth/login" className="text-sm text-primary hover:underline">
+              Ja tem conta? Entrar
             </Link>
           </div>
         </div>

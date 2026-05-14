@@ -48,7 +48,7 @@ export default function Home() {
       </section>
 
       {/* Features */}
-      <section className="py-20 md:py-28">
+      <section id="como-funciona" className="scroll-mt-32 py-20 md:scroll-mt-24 md:py-28">
         <div className="container mx-auto px-4">
           <h2 className="font-heading text-3xl md:text-4xl font-bold text-center mb-4 text-foreground">Como funciona</h2>
           <p className="text-center text-muted-foreground mb-14 max-w-xl mx-auto">
