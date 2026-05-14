@@ -6,17 +6,33 @@ Aplicacao web para simular e comparar opcoes de aquisicao de imovel, como financ
 
 ```text
 .
-|-- src/                  # Frontend React + Vite
-|   |-- components/        # Componentes reutilizaveis
-|   |-- lib/               # Clientes e utilitarios
-|   `-- pages/             # Paginas da aplicacao
-|-- api/                  # Backend Node + Express
-|   `-- src/
-|       |-- routes/        # Rotas HTTP
-|       |-- app.ts         # Configuracao do Express
-|       `-- server.ts      # Inicializacao da API
-|-- public/               # Arquivos estaticos
-`-- package.json          # Scripts e dependencias do frontend
+|-- src/                         # Frontend React + Vite
+|   |-- components/              # Componentes reutilizáveis da interface
+|   |-- lib/                     # Configurações, clientes e utilitários
+|   |-- pages/                   # Páginas da aplicação
+|   |-- App.tsx                  # Configuração principal de rotas
+|   |-- main.tsx                 # Inicialização do React
+|   `-- index.css                # Estilos globais + Tailwind
+|
+|-- api/                         # Backend Node + Express
+|   |-- src/
+|   |   |-- config/              # Configurações de ambiente e Supabase
+|   |   |-- controllers/         # Camada HTTP (req/res)
+|   |   |-- middlewares/         # Middlewares da API
+|   |   |-- repositories/        # Acesso ao banco de dados
+|   |   |-- routes/              # Rotas HTTP
+|   |   |-- services/            # Regras de negócio e cálculos
+|   |   |-- types/               # Tipagens TypeScript
+|   |   |-- app.ts               # Configuração do Express
+|   |   `-- server.ts            # Inicialização da API
+|   |
+|   |-- .env.example             # Exemplo de variáveis de ambiente
+|   `-- package.json             # Dependências e scripts do backend
+|
+|-- public/                      # Arquivos estáticos
+|
+|-- package.json                 # Dependências e scripts do frontend
+`-- README.md                    # Documentação do projeto
 ```
 
 ## Tecnologias
