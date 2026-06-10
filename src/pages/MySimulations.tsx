@@ -1,24 +1,63 @@
-export default function MySimulations() {
-    //Simulações de exemplo, futuramente serão buscadas do banco de dados
-    const simulations = [
-        {
-            data: "14/05/2025",
-            valorImovel: "R$ 2.000.000",
-            prazo: "5 anos",
-            financiamento: "R$ 42.000",
-            consorcio: "R$ 40.000",
-            economia: "R$ 100.000"
-        },
+import { useEffect, useState } from "react";
+import { toast } from "../hook/use-toast";
+import { deleteSimulation, getSimulations, type SavedSimulation } from "../lib/api";
 
-        {
-            data: "14/05/2025",
-            valorImovel: "R$ 800.000",
-            prazo: "10 anos",
-            financiamento: "R$ 8.000",
-            consorcio: "R$ 6.500",
-            economia: "R$ 75.000"
+const moneyFormatter = new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+});
+
+function formatDate(value?: string) {
+    if (!value) {
+        return "Sem data";
+    }
+
+    return new Intl.DateTimeFormat("pt-BR").format(new Date(value));
+}
+
+export default function MySimulations() {
+    const [simulations, setSimulations] = useState<SavedSimulation[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [deletingId, setDeletingId] = useState<string | null>(null);
+
+    useEffect(() => {
+        let isMounted = true;
+
+        getSimulations()
+            .then((data) => {
+                if (isMounted) {
+                    setSimulations(data);
+                }
+            })
+            .catch((err: unknown) => {
+                const message = err instanceof Error ? err.message : "Não foi possível buscar o histórico.";
+                toast({ title: "Erro", description: message, variant: "destructive" });
+            })
+            .finally(() => {
+                if (isMounted) {
+                    setLoading(false);
+                }
+            });
+
+        return () => {
+            isMounted = false;
+        };
+    }, []);
+
+    const handleDelete = async (id: string) => {
+        setDeletingId(id);
+
+        try {
+            await deleteSimulation(id);
+            setSimulations((currentSimulations) => currentSimulations.filter((simulation) => simulation.id !== id));
+            toast({ title: "Sucesso!", description: "Simulação removida." });
+        } catch (err: unknown) {
+            const message = err instanceof Error ? err.message : "Não foi possível remover a simulação.";
+            toast({ title: "Erro", description: message, variant: "destructive" });
+        } finally {
+            setDeletingId(null);
         }
-    ]
+    };
 
     return (
     <>
@@ -27,41 +66,53 @@ export default function MySimulations() {
             <h1 className="text-3xl font-bold mb-[44px]">Histórico de simulações</h1>
                 <div className="flex flex-col gap-6">
 
-                    {simulations.map((simulation, index) => (
+                    {loading && (
+                        <p className="ml-2 text-gray-500">Carregando histórico...</p>
+                    )}
 
-                        <div key={index} className="w-[42%] border border-[#dcdcdc] rounded-[15px] p-6 shadow-sm bg-[#fdfdfd] ml-2 hover:scale-[1.02] transition duration-300">
+                    {!loading && simulations.length === 0 && (
+                        <p className="ml-2 text-gray-500">Nenhuma simulação salva ainda.</p>
+                    )}
+
+                    {simulations.map((simulation) => (
+
+                        <div key={simulation.id} className="w-[42%] border border-[#dcdcdc] rounded-[15px] p-6 shadow-sm bg-[#fdfdfd] ml-2 hover:scale-[1.02] transition duration-300">
                             <div className="grid gap-1">
 
                                 <p>
-                                    <strong>Data:</strong> {simulation.data}
+                                    <strong>Data:</strong> {formatDate(simulation.created_at)}
                                 </p>
 
                                 <p>
-                                    <strong>Preço imóvel:</strong> {simulation.valorImovel}
+                                    <strong>Preço imóvel:</strong> {moneyFormatter.format(simulation.valor_imovel)}
                                 </p>
 
                                 <p>
-                                    <strong>Prazo:</strong> {simulation.prazo}
+                                    <strong>Prazo:</strong> {simulation.prazo_anos} anos
                                 </p>
 
                                 <p>
-                                    <strong>Parcela financiamento:</strong> {simulation.financiamento}
+                                    <strong>Parcela financiamento:</strong> {moneyFormatter.format(simulation.financiamento_parcela)}
                                 </p>
 
                                 <p>
-                                    <strong>Parcela consórcio:</strong> {simulation.consorcio}
+                                    <strong>Parcela consórcio:</strong> {moneyFormatter.format(simulation.consorcio_parcela)}
                                 </p>
 
                                 <p>
-                                    <strong>Economia:</strong> {simulation.economia}
+                                    <strong>Economia:</strong> {moneyFormatter.format(simulation.economia)}
                                 </p>
 
                             </div>
 
                             <div className="flex justify-start mt-6">
 
-                                <button className="bg-blue-500 text-white px-2 py-2 text-sm rounded-[10px] hover:bg-blue-600 transition">
-                                    Ver detalhes
+                                <button
+                                    className="bg-blue-500 text-white px-2 py-2 text-sm rounded-[10px] hover:bg-blue-600 transition"
+                                    disabled={deletingId === simulation.id}
+                                    onClick={() => void handleDelete(simulation.id)}
+                                >
+                                    {deletingId === simulation.id ? "Removendo..." : "Remover"}
                                 </button>
 
                             </div>
