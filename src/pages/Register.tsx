@@ -1,37 +1,31 @@
 import { UserPlus } from "lucide-react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
-import { supabase } from "../lib/supabase";
 import { toast } from "../hook/use-toast";
+import { registerUser } from "../lib/api";
 
 export default function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const { error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          emailRedirectTo: `${window.location.origin}/auth/login`,
-          data: { name },
-        },
-      });
-
-      if (error) throw error;
+      const auth = await registerUser(name, email, password);
       toast({ title: "Sucesso!", description: "Conta criada com sucesso!" });
       setName("");
       setEmail("");
       setPassword("");
+
+      navigate(auth.session ? "/home" : "/auth/login");
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Não foi possível criar a conta.";
       toast({ title: "Erro", description: message, variant: "destructive" });
@@ -67,7 +61,7 @@ export default function Register() {
 
             <Button type="submit" className="w-full" disabled={loading}>
               <UserPlus className="h-4 w-4" />
-              Criar conta
+              {loading ? "Criando..." : "Criar conta"}
             </Button>
           </form>
 

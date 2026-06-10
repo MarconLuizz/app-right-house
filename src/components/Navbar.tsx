@@ -2,7 +2,7 @@ import { Calculator, LogOut } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
-import { supabase } from "../lib/supabase";
+import { isAuthenticated as hasSession, logoutUser, subscribeToAuthChanges } from "../lib/api";
 import { Button } from "./ui/button";
 
 const navLinks = [
@@ -17,17 +17,11 @@ export default function Navbar() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      setIsAuthenticated(Boolean(data.session));
-    });
+    const syncAuthState = () => setIsAuthenticated(hasSession());
 
-    const { data } = supabase.auth.onAuthStateChange((_event, session) => {
-      setIsAuthenticated(Boolean(session));
-    });
+    syncAuthState();
 
-    return () => {
-      data.subscription.unsubscribe();
-    };
+    return subscribeToAuthChanges(syncAuthState);
   }, []);
 
   const isActive = (to: string) => {
@@ -40,7 +34,7 @@ export default function Navbar() {
   };
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
+    await logoutUser();
     navigate("/home");
   };
 

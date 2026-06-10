@@ -7,8 +7,8 @@ import Simulation from './pages/Simulation'
 import MySimulations from './pages/MySimulations'
 import Navbar from './components/Navbar.tsx'
 import Register from './pages/Register.tsx'
-import { supabase } from './lib/supabase.ts'
 import { Toaster } from './components/Toaster.tsx'
+import { isAuthenticated as hasSession, subscribeToAuthChanges } from './lib/api.ts'
 
 function HashScroll() {
     const location = useLocation()
@@ -34,19 +34,14 @@ function ProtectedRoute({ children }: { children: ReactNode }) {
     const [isAuthenticated, setIsAuthenticated] = useState(false)
 
     useEffect(() => {
-        supabase.auth.getSession().then(({ data }) => {
-            setIsAuthenticated(Boolean(data.session))
+        const syncAuthState = () => {
+            setIsAuthenticated(hasSession())
             setIsLoading(false)
-        })
-
-        const { data } = supabase.auth.onAuthStateChange((_event, session) => {
-            setIsAuthenticated(Boolean(session))
-            setIsLoading(false)
-        })
-
-        return () => {
-            data.subscription.unsubscribe()
         }
+
+        syncAuthState()
+
+        return subscribeToAuthChanges(syncAuthState)
     }, [])
 
     if (isLoading) {

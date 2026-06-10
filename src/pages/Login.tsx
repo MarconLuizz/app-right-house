@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
-import { supabase } from "../lib/supabase";
+import { loginUser } from "../lib/api";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -18,9 +18,7 @@ export default function Login() {
     setLoading(true);
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
-      if (error) throw error;
-
+      await loginUser(email, password);
       navigate("/home");
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Nao foi possivel concluir a autenticacao.";
@@ -52,7 +50,7 @@ export default function Login() {
 
             <Button type="submit" className="w-full" disabled={loading}>
               <LogIn className="h-4 w-4" />
-              Entrar
+              {loading ? "Entrando..." : "Entrar"}
             </Button>
           </form>
 
