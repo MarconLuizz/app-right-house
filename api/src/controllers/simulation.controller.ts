@@ -1,10 +1,28 @@
 import type { Response } from 'express'
 import type { AuthenticatedRequest } from '../middlewares/auth.middleware.js'
 import {
+    calculateSimulationService,
     createSimulationService,
     deleteSimulationService,
     getUserSimulationsService,
 } from '../services/simulation.service.js'
+
+export async function calculateSimulationController(
+    req: AuthenticatedRequest,
+    res: Response,
+) {
+    try {
+        const simulation = calculateSimulationService(req.body)
+        res.json(simulation)
+    } catch (error) {
+        res.status(400).json({
+            message:
+                error instanceof Error
+                    ? error.message
+                    : 'Não foi possível calcular a simulação.',
+        })
+    }
+}
 
 export async function createSimulationController(
     req: AuthenticatedRequest,

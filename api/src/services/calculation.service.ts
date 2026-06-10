@@ -8,9 +8,11 @@ export function calcularFinanciamento(
     const taxaMensal = taxaAnual / 100 / 12
 
     const parcela =
-        valorFinanciado *
-        (taxaMensal * Math.pow(1 + taxaMensal, prazoMeses)) /
-        (Math.pow(1 + taxaMensal, prazoMeses) - 1)
+        taxaMensal === 0
+            ? valorFinanciado / prazoMeses
+            : valorFinanciado *
+              (taxaMensal * Math.pow(1 + taxaMensal, prazoMeses)) /
+              (Math.pow(1 + taxaMensal, prazoMeses) - 1)
 
     const totalPago = parcela * prazoMeses
     const totalJuros = totalPago - valorFinanciado
