@@ -1,8 +1,10 @@
 import type { NextFunction, Request, Response } from 'express'
+import type { User } from '@supabase/supabase-js'
 import { supabaseAuth } from '../config/supabase.js'
 
 export interface AuthenticatedRequest extends Request {
     userId?: string
+    user?: User
 }
 
 export async function authMiddleware(
@@ -30,5 +32,6 @@ export async function authMiddleware(
     }
 
     req.userId = user.id
+    req.user = user
     next()
 }
