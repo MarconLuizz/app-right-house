@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { toast } from "../hook/use-toast";
 import { deleteSimulation, getSimulations, type SavedSimulation } from "../lib/api";
+import { Trash2, Eye } from "lucide-react";
+
 
 const moneyFormatter = new Intl.NumberFormat("pt-BR", {
     style: "currency",
@@ -62,67 +64,50 @@ export default function MySimulations() {
     return (
     <>
         <div className="bg-[#f9f9fa] m-0 pb-10 pt-10">
-            <div className="w-[65%] min-h-[500px] bg-white shadow-[0_2px_10px_rgba(0,0,0,0.08)] mx-auto p-[30px] rounded-[20px]">
-            <h1 className="text-3xl font-bold mb-[44px]">Histórico de simulações</h1>
-                <div className="flex flex-col gap-6">
-
+            <div className="w-[65%] min-h-180 bg-white mx-auto p-2.5">
+                <div className="flex flex-col">
+                    <div className="grid grid-cols-5 gap-4 px-4 pt-2 pb-4 border-b mb-1">
+                        <span>Data</span>
+                                <span>Valor do imóvel</span>
+                                <span>Prazo</span>
+                                <span>Economia</span>
+                    </div>   
                     {loading && (
-                        <p className="ml-2 text-gray-500">Carregando histórico...</p>
+                        <p className="ml-4 mt-2 text-gray-500">Carregando histórico...</p>
                     )}
 
                     {!loading && simulations.length === 0 && (
-                        <p className="ml-2 text-gray-500">Nenhuma simulação salva ainda.</p>
+                        <strong><p className="text-center mt-30 text-gray-500">Você ainda não possui simulações salvas</p></strong>
                     )}
-
                     {simulations.map((simulation) => (
 
-                        <div key={simulation.id} className="w-[42%] border border-[#dcdcdc] rounded-[15px] p-6 shadow-sm bg-[#fdfdfd] ml-2 hover:scale-[1.02] transition duration-300">
-                            <div className="grid gap-1">
+                        <div key={simulation.id} className="grid grid-cols-5 gap-4 px-4 py-4 border-b bg-[#fdfdfd] hover:bg-[#f5f5f5] transition-all duration-200 text-sm font-semibold">
+                                
+                                
+                                <span>{formatDate(simulation.created_at)}</span>
+                                <span>
+                                    {moneyFormatter.format(simulation.valor_imovel)}
+                                </span>
 
-                                <p>
-                                    <strong>Data:</strong> {formatDate(simulation.created_at)}
-                                </p>
+                                <span>
+                                    {simulation.prazo_anos} anos
+                                </span>
 
-                                <p>
-                                    <strong>Preço imóvel:</strong> {moneyFormatter.format(simulation.valor_imovel)}
-                                </p>
-
-                                <p>
-                                    <strong>Prazo:</strong> {simulation.prazo_anos} anos
-                                </p>
-
-                                <p>
-                                    <strong>Parcela financiamento:</strong> {moneyFormatter.format(simulation.financiamento_parcela)}
-                                </p>
-
-                                <p>
-                                    <strong>Parcela consórcio:</strong> {moneyFormatter.format(simulation.consorcio_parcela)}
-                                </p>
-
-                                <p>
-                                    <strong>Economia:</strong> {moneyFormatter.format(simulation.economia)}
-                                </p>
-
-                            </div>
-
-                            <div className="flex justify-start mt-6">
-
-                                <button
-                                    className="bg-blue-500 text-white px-2 py-2 text-sm rounded-[10px] hover:bg-blue-600 transition"
-                                    disabled={deletingId === simulation.id}
-                                    onClick={() => void handleDelete(simulation.id)}
-                                >
-                                    {deletingId === simulation.id ? "Removendo..." : "Remover"}
-                                </button>
-
-                            </div>
+                                <span>
+                                    {moneyFormatter.format(simulation.economia)}
+                                </span>   
+                                <div className="flex gap-2 px-24">
+                                    <button className="p-0.5 rounded-sm bg-blue-300 hover:bg-blue-400"><Eye></Eye></button>
+                                    <button className="p-0.5 rounded-sm bg-gray-200 hover:bg-gray-400" disabled={deletingId === simulation.id} 
+                                        onClick={() => void handleDelete(simulation.id)}>
+                                        <Trash2></Trash2>
+                                    </button>   
+                                </div> 
 
                         </div>
 
                     ))}
-
                 </div>
-
 
             </div>
         </div>

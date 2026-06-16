@@ -46,7 +46,7 @@ export default function Home() {
           </div>
         </div>
         <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-primary-foreground/5" />
-        <div className="absolute -bottom-32 -left-32 w-[500px] h-[500px] rounded-full bg-primary-foreground/5" />
+        <div className="absolute -bottom-32 -left-32 w-125 h-125 rounded-full bg-primary-foreground/5" />
       </section>
 
       {/* Features */}

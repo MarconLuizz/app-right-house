@@ -200,45 +200,30 @@ export default function Simulation() {
                         <label>Taxa administrativa do consórcio (%)</label>
                         <input className="h-[41px] bg-[#f8f8f8] border text-base px-[15px] py-0 rounded-[10px] border-solid border-[#ccc]" type="number" step="0.01" value={form.taxaAdminConsorcio} onChange={(event) => updateField("taxaAdminConsorcio", event.target.value)} required></input>
                     </div>
+                    <div className="flex flex-col gap-2">
                     <div className="flex items-center gap-3">
-                        <span>Deseja utilizar FGTS?</span>
+                        <label>Deseja utilizar FGTS?</label>
+                        
                         <button
                             type="button"
                             onClick={() => updateProfileField("usarFgts", !profileForm.usarFgts)}
-                            className={`
-                                w-12
-                                h-6
-                                rounded-full
-                                transition
-                                duration-300
-                                ${profileForm.usarFgts ? "bg-green-500" : "bg-gray-400"}
-                            `}
+                            className={`w-12 h-6 rounded-full transition duration-300 ${profileForm.usarFgts ? "bg-green-500" : "bg-gray-400"}`}
                         >
-                        <div
-                            className={`
-                                w-5
-                                h-5
-                                bg-white
-                                rounded-full
-                                transition
-                                duration-300
-                                ${profileForm.usarFgts ? "translate-x-6" : "translate-x-1"}
-                            `}
-                        />
+                        <div className={`w-5 h-5 bg-white rounded-full transition duration-300 ${profileForm.usarFgts ? "translate-x-6" : "translate-x-1"}`}/>
                         </button>
-                    </div>
-                        {profileForm.usarFgts && (
-                            <div className="flex flex-col gap-2 mt-4">
-                                <input
-                                    className="h-[41px] bg-[#f8f8f8] border text-base px-[15px] rounded-[10px] border-[#ccc]"
-                                    type="text"
-                                    placeholder="R$ 00000,00"
-                                    value={profileForm.valorFgts}
-                                    onChange={(event) => updateProfileField("valorFgts", event.target.value)}
-                                />
-                            </div>
+                        </div>
+                            {profileForm.usarFgts && (
+                                <div className="flex flex-col gap-2">
+                                    <input
+                                        className="h-[41px] bg-[#f8f8f8] border text-base px-[15px] rounded-[10px] border-[#ccc]" type="text" placeholder="R$ 00000,00"
+                                        value={profileForm.valorFgts}
+                                        onChange={(event) => updateProfileField("valorFgts", event.target.value)}
+                                    />
+                                </div>
                         )}
+                    </div>
                 </form>
+
                 <div className="w-full flex justify-end gap-3 mt-[30px] mb-4">
                     <Button type="submit" form="simulation-form" className="text-[white] bg-[rgb(67,101,250)] px-9 py-3 rounded-[10px] border-[none]" disabled={loading}>
                         {loading ? "Calculando..." : "Ver resultado"}
