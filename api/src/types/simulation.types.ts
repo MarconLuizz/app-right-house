@@ -1,7 +1,7 @@
 export interface SimulationInput {
     valorImovel: number
     valorEntrada: number
-    prazoAnos: number
+    prazoMeses: number
     taxaJurosAnual: number
     taxaAdminConsorcio: number
 }

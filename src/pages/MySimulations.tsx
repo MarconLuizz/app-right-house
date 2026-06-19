@@ -17,6 +17,18 @@ function formatDate(value?: string) {
     return new Intl.DateTimeFormat("pt-BR").format(new Date(value));
 }
 
+function formatPrazo(simulation: SavedSimulation) {
+    if (simulation.prazo_meses) {
+        return `${simulation.prazo_meses} meses`;
+    }
+
+    if (simulation.prazo_anos) {
+        return `${simulation.prazo_anos * 12} meses`;
+    }
+
+    return "Sem prazo";
+}
+
 export default function MySimulations() {
     const [simulations, setSimulations] = useState<SavedSimulation[]>([]);
     const [loading, setLoading] = useState(true);
@@ -90,7 +102,7 @@ export default function MySimulations() {
                                 </span>
 
                                 <span>
-                                    {simulation.prazo_anos} anos
+                                    {formatPrazo(simulation)}
                                 </span>
 
                                 <span>

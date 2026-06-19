@@ -4,7 +4,8 @@ export interface SimulationRecord {
     user_id: string
     valor_imovel: number
     valor_entrada: number
-    prazo_anos: number
+    prazo_meses: number
+    valor_financiado: number
     taxa_juros: number
     taxa_admin: number
     financiamento_parcela: number
