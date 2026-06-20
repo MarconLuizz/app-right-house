@@ -1,6 +1,9 @@
 import { useNavigate } from "react-router-dom";
+import { Faq } from "../components/Faq" 
 import { ArrowRight, Building2, ShieldCheck, TrendingUp } from "lucide-react";
 import { Button } from "../components/ui/button";
+
+
 
 const features = [
   {
@@ -22,7 +25,7 @@ const features = [
 
 export default function Home() {
   const navigate = useNavigate();
-
+  
   return (
     <div className="flex flex-col min-h-screen bg-background">
       {/* Hero */}
@@ -71,6 +74,38 @@ export default function Home() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section>
+        <h1 className="font-heading text-3xl md:text-4xl font-bold text-center mb-5">Perguntas Frequentes</h1>
+        <div className="mx-auto bg-background min-h-140 pt-10">
+            <Faq question="O que são Amortizações?" 
+                 answer="Amortização é o pagamento antecipado de parte da dívida de um financiamento. Quando você faz uma amortização, o valor pago é abatido diretamente do saldo devedor,
+                reduzindo a quantia que ainda falta pagar. Isso pode trazer benefícios como redução do valor das parcelas futuras ou redução do prazo total do financiamento. 
+                Como os juros do financiamento são calculados sobre o saldo devedor, amortizar a dívida geralmente diminui o valor total de juros pagos ao longo do contrato.
+                
+                Exemplo: se você recebeu um bônus, uma herança ou possui saldo de FGTS disponível, pode utilizar esse dinheiro para amortizar o 
+                financiamento e economizar no custo final do imóvel."></Faq>
+            <Faq question="Quais as diferenças entre amortização de prazo e parcela?" 
+                 answer="Amortizar o prazo reduz a duração do contrato (você quita a dívida mais rápido), o que gera uma grande economia no total de juros. 
+                 Já amortizar a parcela diminui o valor mensal que você paga, mantendo o prazo original. A amortização do prazo pode ser tende a gerar uma economia maior, porém mantém-se
+                 o valor mensal das parcelas, enquanto a amortização das parcelas pode ser uma opção boa caso a pessoa que deseja diminuir o valor mensal das parcelas."></Faq>
+            <Faq question="Quais as vantagens e desvantagens do consórcio?" 
+                 answer="As principais vantagens do consórcio são a ausência de juros e o parcelamento mensal, sendo uma opção boa pra quem busca a aquisição de um bem de maneira mais acessível.
+                 Já nas principais desvantagens temos o possível longo tempo de aquisição devido a dinâmica de contemplação, que pode demorar anos dependendo do caso, e as taxas administrativas,
+                 que podem vir a ser altas em alguns casos tornando a opção menos barata do que o financiamento."></Faq>
+            <Faq question="Quais as vantagens e desvantagens do financiamento?" 
+                 answer="As principais vantagens são a possibilidade do uso do bem de forma imediata, os longos prazos de pagamento, que podem extender em alguns casos a 35 anos e a
+                 possibilidade do uso de FGTS como entrada ou para quitar parcelas futuras. Já as desvantagens são os juros a serem pagos nas parcelas, preços que aumentam bastante
+                 conforme o tempo de pagamento devido aos juros e taxas adicionais que também contribuem para o aumento do preço."></Faq>
+            <Faq question="Consórcio ou financiamento: qual o melhor para minha situação?" 
+                 answer="O consórcio tende a ser uma opção melhor pra quem quer pagar menos no bem, e ao mesmo tempo não prioriza um curto tempo de aquisição. 
+                 É importante entender também que quanto maior o prazo de aquisição, mais vantajoso o consórcio tende a ser financeiramente por conta dos juros do financiamento. Já o financiamento
+                 tende a ser mais positivo caso a pessoa queira realizar a aquisição em pouco tempo, pois em muitos casos, o valor do juros acaba sendo menor que o valor das taxas administrativas 
+                 do consórcio, e também para quem deseja realizar a aquisição de forma imediata ou mais rápida e não se importa de pagar um pouco a mais, visto que no caso do consórcio, 
+                 a aquisição pode levar bastante tempo. No fim, a decisão depende das prioridades do investidor naquele momento."></Faq>
         </div>
       </section>
 
