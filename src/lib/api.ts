@@ -5,7 +5,7 @@ export const AUTH_CHANGED_EVENT = "app-right-house-auth-changed";
 export interface SimulationInput {
     valorImovel: number;
     valorEntrada: number;
-    prazoAnos: number;
+    prazoMeses: number;
     taxaJurosAnual: number;
     taxaAdminConsorcio: number;
 }
@@ -38,7 +38,9 @@ export interface SavedSimulation {
     created_at?: string;
     valor_imovel: number;
     valor_entrada: number;
-    prazo_anos: number;
+    prazo_meses?: number;
+    prazo_anos?: number;
+    valor_financiado?: number;
     taxa_juros: number;
     taxa_admin: number;
     financiamento_parcela: number;

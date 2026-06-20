@@ -27,10 +27,12 @@ export function calcularFinanciamento(
 
 export function calcularConsorcio(
     valorCarta: number,
-    taxaAdmin: number,
+    taxaAdminAnual: number,
     prazoMeses: number,
 ) {
-    const taxaAdminTotal = valorCarta * (taxaAdmin / 100)
+    const prazoAnos = prazoMeses / 12
+    const taxaAdminPercentualTotal = taxaAdminAnual * prazoAnos
+    const taxaAdminTotal = valorCarta * (taxaAdminPercentualTotal / 100)
     const parcelaMensal = (valorCarta + taxaAdminTotal) / prazoMeses
     const totalPago = parcelaMensal * prazoMeses
 
@@ -44,19 +46,29 @@ export function calcularConsorcio(
 
 export function simular(input: SimulationInput): SimulationResult {
     const valorFinanciado = input.valorImovel - input.valorEntrada
-    const prazoMeses = input.prazoAnos * 12
+    const prazoMeses = input.prazoMeses
 
-    const financiamento = calcularFinanciamento(
+    const financiamentoBase = calcularFinanciamento(
         valorFinanciado,
         input.taxaJurosAnual,
         prazoMeses,
     )
 
-    const consorcio = calcularConsorcio(
-        input.valorImovel,
+    const consorcioBase = calcularConsorcio(
+        valorFinanciado,
         input.taxaAdminConsorcio,
         prazoMeses,
     )
+
+    const financiamento = {
+        ...financiamentoBase,
+        totalPago: financiamentoBase.totalPago + input.valorEntrada,
+    }
+
+    const consorcio = {
+        ...consorcioBase,
+        totalPago: consorcioBase.totalPago + input.valorEntrada,
+    }
 
     const economia = Math.abs(financiamento.totalPago - consorcio.totalPago)
 

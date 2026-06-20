@@ -1,5 +1,10 @@
 import type { SimulationInput } from '../types/simulation.types.js'
 
+const PRAZO_MINIMO_MESES = 6
+const PRAZO_MAXIMO_MESES = 420
+const TAXA_JUROS_ANUAL_FIXA = 10
+const TAXA_ADMIN_CONSORCIO_FIXA = 1.15
+
 function readNumber(value: unknown, field: string) {
     const numberValue =
         typeof value === 'string' && value.trim() !== ''
@@ -16,12 +21,7 @@ function readNumber(value: unknown, field: string) {
 export function validateSimulationInput(input: Partial<SimulationInput>) {
     const valorImovel = readNumber(input.valorImovel, 'Valor do imóvel')
     const valorEntrada = readNumber(input.valorEntrada, 'Valor de entrada')
-    const prazoAnos = readNumber(input.prazoAnos, 'Prazo')
-    const taxaJurosAnual = readNumber(input.taxaJurosAnual, 'Taxa de juros')
-    const taxaAdminConsorcio = readNumber(
-        input.taxaAdminConsorcio,
-        'Taxa administrativa',
-    )
+    const prazoMeses = readNumber(input.prazoMeses, 'Prazo')
 
     if (valorImovel <= 0) {
         throw new Error('O valor do imóvel deve ser maior que zero.')
@@ -35,23 +35,17 @@ export function validateSimulationInput(input: Partial<SimulationInput>) {
         throw new Error('O valor de entrada deve ser menor que o valor do imóvel.')
     }
 
-    if (prazoAnos <= 0) {
-        throw new Error('O prazo deve ser maior que zero.')
-    }
-
-    if (taxaJurosAnual < 0) {
-        throw new Error('A taxa de juros não pode ser negativa.')
-    }
-
-    if (taxaAdminConsorcio < 0) {
-        throw new Error('A taxa administrativa não pode ser negativa.')
+    if (prazoMeses < PRAZO_MINIMO_MESES || prazoMeses > PRAZO_MAXIMO_MESES) {
+        throw new Error(
+            `O prazo deve estar entre ${PRAZO_MINIMO_MESES} e ${PRAZO_MAXIMO_MESES} meses.`,
+        )
     }
 
     return {
         valorImovel,
         valorEntrada,
-        prazoAnos,
-        taxaJurosAnual,
-        taxaAdminConsorcio,
+        prazoMeses,
+        taxaJurosAnual: TAXA_JUROS_ANUAL_FIXA,
+        taxaAdminConsorcio: TAXA_ADMIN_CONSORCIO_FIXA,
     }
 }
