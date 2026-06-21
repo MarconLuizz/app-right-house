@@ -117,6 +117,11 @@ export default function Simulation() {
                 <>
                     <h1 className="mb-7 text-4xl font-bold">Hora de dar o primeiro passo na sua conquista</h1>
                         {<form id="simulation-form" onSubmit={handleCalculate} className="grid gap-5 md:grid-cols-2">
+                    {/*
+                        - dados possivelmente destinados a uma futura página de perfil
+                        - nao sao usados no cálculo nem são salvos no histórico
+                    */}
+                    {/*
                     <div className="flex flex-col gap-2">
                         <label>Nome completo</label>
                         <input className="h-[41px] rounded-[10px] border border-solid border-[#ccc] bg-[#f8f8f8] px-[15px] py-0 text-base" type="text" placeholder="Digite seu nome" value={profileForm.nome} onChange={(event) => updateProfileField("nome", event.target.value)} />
@@ -137,10 +142,15 @@ export default function Simulation() {
                         <label>Renda</label>
                         <input className="h-[41px] rounded-[10px] border border-solid border-[#ccc] bg-[#f8f8f8] px-[15px] py-0 text-base" type="text" placeholder="R$ 00.000,00" value={profileForm.renda} onChange={(event) => updateProfileField("renda", event.target.value)} />
                     </div>
+                    */}
                     <div className="flex flex-col gap-2">
                         <label>Valor do imóvel</label>
                         <input className="h-[41px] rounded-[10px] border border-solid border-[#ccc] bg-[#f8f8f8] px-[15px] py-0 text-base" type="number" min="1" value={form.valorImovel} onChange={(event) => updateField("valorImovel", event.target.value)} required />
                     </div>
+                    {/*
+                       - campos de perfil/preferência vira perfil editável ou entra em alguma regra de recomendação.
+                    */}
+                    {/*
                     <div className="flex flex-col gap-2">
                         <label>Tipo do imóvel</label>
                         <select className="h-[41px] rounded-[10px] border border-solid border-[#ccc] bg-[#f8f8f8] px-[15px] py-0 text-base" value={profileForm.tipoImovel} onChange={(event) => updateProfileField("tipoImovel", event.target.value)}>
@@ -166,6 +176,7 @@ export default function Simulation() {
                             <option>Mais de 1 ano</option>
                         </select>
                     </div>
+                    */}
                     <div className="flex flex-col gap-2">
                         <label>Prazo do financiamento e consórcio (em meses)</label>
                         <input className="h-[41px] rounded-[10px] border border-solid border-[#ccc] bg-[#f8f8f8] px-[15px] py-0 text-base" type="number" min={PRAZO_MINIMO_MESES} max={PRAZO_MAXIMO_MESES} value={form.prazoMeses} onChange={(event) => updateField("prazoMeses", event.target.value)} required />
