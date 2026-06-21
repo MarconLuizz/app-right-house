@@ -39,6 +39,7 @@ export default function Home() {
           </p>
           <div className="flex gap-3 mt-4 flex-col sm:flex-row">
             <Button
+              data-testid="btn-comecar-agora"
               size="lg"
               className="bg-card text-primary hover:bg-card/90 font-semibold text-base px-8 animate-fade-in"
               style={{ animationDelay: "0.2s" }}
@@ -116,7 +117,7 @@ export default function Home() {
           <p className="text-muted-foreground mb-8 max-w-lg mx-auto">
             É gratuito, rápido e vai te ajudar a encontrar as melhores opções para seu momento de vida.
           </p>
-          <Button size="lg" onClick={() => navigate("/simulation")}>
+          <Button data-testid="btn-iniciar-simulacao" size="lg" onClick={() => navigate("/simulation")}>
             Iniciar simulação <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
         </div>

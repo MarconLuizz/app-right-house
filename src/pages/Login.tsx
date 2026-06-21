@@ -40,15 +40,15 @@ export default function Login() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <Label className="text-foreground">Email</Label>
-              <Input type="email" placeholder="seu@email.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
+              <Input data-testid="input-email-login" type="email" placeholder="seu@email.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
             </div>
 
             <div>
               <Label className="text-foreground">Senha</Label>
-              <Input type="password" placeholder="********" value={password} onChange={(e) => setPassword(e.target.value)} required minLength={6} />
+              <Input data-testid="input-senha-login" type="password" placeholder="********" value={password} onChange={(e) => setPassword(e.target.value)} required minLength={6} />
             </div>
 
-            <Button type="submit" className="w-full" disabled={loading}>
+            <Button data-testid="btn-entrar-login" type="submit" className="w-full" disabled={loading}>
               <LogIn className="h-4 w-4" />
               {loading ? "Entrando..." : "Entrar"}
             </Button>

@@ -10,7 +10,7 @@ export default function ResultCard({ simulation }: { simulation: SimulationRespo
     const { financiamento, consorcio } = simulation.result;
 
     return (
-        <div className="mt-8 rounded-[15px] border border-[#dcdcdc] bg-[#fdfdfd] p-6 shadow-sm">
+        <div data-testid="resultado-simulacao" className="mt-8 rounded-[15px] border border-[#dcdcdc] bg-[#fdfdfd] p-6 shadow-sm">
             <h2 className="mb-4 text-2xl font-bold">Resultado da simulação</h2>
 
             <div className="grid gap-5 md:grid-cols-2">

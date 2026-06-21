@@ -150,3 +150,77 @@ npm run start    # executa a API compilada
 - O frontend consome o Supabase diretamente para autenticacao.
 - A API atualmente possui uma rota de health check e esta preparada para receber novas rotas, controllers, services e repositories.
 - As paginas de simulacao ainda estao em desenvolvimento.
+
+
+
+## Teste Automatizado E2E com Playwright
+
+O projeto possui um teste automatizado E2E implementado com **Playwright**, cobrindo o fluxo principal do sistema Right House.
+
+### Fluxo validado
+
+O teste automatizado executa o seguinte cenário feliz:
+
+* Acessa a página inicial do sistema;
+* Realiza o cadastro de um novo usuário;
+* Executa logout;
+* Realiza login com o usuário cadastrado;
+* Navega pelas principais seções da aplicação;
+* Acessa a tela de simulação;
+* Preenche os dados da simulação com valores específicos;
+* Realiza o cálculo da simulação;
+* Valida os resultados apresentados;
+* Salva a simulação no histórico;
+* Acessa o histórico de simulações;
+* Visualiza a simulação salva;
+* Exclui a simulação;
+* Valida a remoção da simulação do histórico.
+
+### Pré-requisitos
+
+Antes de executar o teste, é necessário instalar as dependências do projeto:
+
+```bash
+npm install
+```
+
+Também é necessário instalar o navegador utilizado pelo Playwright:
+
+```bash
+npx playwright install chromium
+```
+
+Além disso, o projeto deve possuir os arquivos `.env` configurados corretamente:
+
+```text
+.env
+api/.env
+```
+
+Esses arquivos devem conter as variáveis de ambiente do Supabase e da API local.
+
+### Executar o teste E2E
+
+Para executar o teste automatizado em modo visual, com o navegador aberto:
+
+```bash
+npm run test:e2e:headed
+```
+
+Para executar o teste em modo headless:
+
+```bash
+npm run test:e2e
+```
+
+### Relatório de execução
+
+Após a execução, é possível abrir o relatório do Playwright com o comando:
+
+```bash
+npx playwright show-report
+```
+
+### Observação
+
+Os arquivos `.env`, `api/.env`, `node_modules`, `playwright-report` e `test-results` não devem ser versionados no repositório.
