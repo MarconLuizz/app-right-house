@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
+
 import { toast } from "../hook/use-toast";
+import ResultCard from "../components/SimulationResults"
 import { deleteSimulation, getSimulations, type SavedSimulation } from "../lib/api";
 import { Trash2, Eye } from "lucide-react";
 
@@ -33,6 +35,11 @@ export default function MySimulations() {
     const [simulations, setSimulations] = useState<SavedSimulation[]>([]);
     const [loading, setLoading] = useState(true);
     const [deletingId, setDeletingId] = useState<string | null>(null);
+    const [selectedSimulation, setSelectedSimulation] = useState<SavedSimulation | null>(null);
+    const handleView = (simulation: SavedSimulation) => {
+        setSelectedSimulation(simulation);
+    };
+
 
     useEffect(() => {
         let isMounted = true;
@@ -57,7 +64,7 @@ export default function MySimulations() {
             isMounted = false;
         };
     }, []);
-
+    
     const handleDelete = async (id: string) => {
         setDeletingId(id);
 
@@ -73,57 +80,91 @@ export default function MySimulations() {
         }
     };
 
-    return (
-    <>
-        <div className="bg-[#f9f9fa] m-0 pb-10 pt-10">
-            <div className="w-[65%] min-h-180 bg-white mx-auto p-2.5">
-                <div className="flex flex-col">
-                    <div className="grid grid-cols-5 gap-4 px-4 pt-2 pb-4 border-b mb-1">
-                        <span>Data</span>
-                                <span>Valor do imóvel</span>
-                                <span>Prazo</span>
-                                <span>Economia</span>
-                    </div>   
-                    {loading && (
-                        <p className="ml-4 mt-2 text-gray-500">Carregando histórico...</p>
-                    )}
+    return selectedSimulation ? (
+    <div className="bg-[#f9f9fa] m-0 pb-10 pt-10">
+        <div className="w-[65%] mx-auto bg-white p-4">
 
-                    {!loading && simulations.length === 0 && (
-                        <strong><p className="text-center mt-30 text-gray-500">Você ainda não possui simulações salvas</p></strong>
-                    )}
-                    {simulations.map((simulation) => (
+            <button className="mb-4 text-sm text-blue-500" onClick={() => setSelectedSimulation(null)}>← Voltar para o histórico</button> 
 
-                        <div key={simulation.id} className="grid grid-cols-5 gap-4 px-4 py-4 border-b bg-[#fdfdfd] hover:bg-[#f5f5f5] transition-all duration-200 text-sm font-semibold">
-                                
-                                
-                                <span>{formatDate(simulation.created_at)}</span>
-                                <span>
-                                    {moneyFormatter.format(simulation.valor_imovel)}
-                                </span>
+            <ResultCard
+                simulation={{
+                    input: {
+                        valorImovel: selectedSimulation.valor_imovel,
+                        valorEntrada: selectedSimulation.valor_entrada,
+                        prazoMeses: selectedSimulation.prazo_meses ?? 0,
+                        taxaJurosAnual: selectedSimulation.taxa_juros,
+                        taxaAdminConsorcio: selectedSimulation.taxa_admin,
+                    },
+                    result: {
+                        financiamento: {
+                            parcelaMensal: selectedSimulation.financiamento_parcela,
+                            totalPago: selectedSimulation.financiamento_total,
+                            totalJuros: selectedSimulation.financiamento_juros,
+                            prazoMeses: selectedSimulation.prazo_meses ?? 0,
+                        },
+                        consorcio: {
+                            parcelaMensal: selectedSimulation.consorcio_parcela,
+                            totalPago: selectedSimulation.consorcio_total,
+                            taxaAdminTotal: selectedSimulation.consorcio_taxa_admin_total,
+                            prazoMeses: selectedSimulation.prazo_meses ?? 0,
+                        },
+                        recomendacao: selectedSimulation.recomendacao,
+                        economia: selectedSimulation.economia,
+                    }
+                }}
+            />
+        </div>
+    </div>
+    ) : (
+    <div className="bg-[#f9f9fa] m-0 pb-10 pt-10">
+        <div className="w-[65%] min-h-180 bg-white mx-auto p-2.5">
 
-                                <span>
-                                    {formatPrazo(simulation)}
-                                </span>
-
-                                <span>
-                                    {moneyFormatter.format(simulation.economia)}
-                                </span>   
-                                <div className="flex gap-2 px-24">
-                                    <button className="p-0.5 rounded-sm bg-blue-300 hover:bg-blue-400"><Eye></Eye></button>
-                                    <button className="p-0.5 rounded-sm bg-gray-200 hover:bg-gray-400" disabled={deletingId === simulation.id} 
-                                        onClick={() => void handleDelete(simulation.id)}>
-                                        <Trash2></Trash2>
-                                    </button>   
-                                </div> 
-
-                        </div>
-
-                    ))}
+            <div className="flex flex-col">
+                <div className="grid grid-cols-5 gap-4 px-4 pt-2 pb-4 border-b mb-1">
+                    <span>Data</span>
+                    <span>Valor do imóvel</span>
+                    <span>Prazo</span>
+                    <span>Economia</span>
                 </div>
 
+                {loading && (
+                    <p className="ml-4 mt-2 text-gray-500">Carregando histórico...</p>
+                )}
+
+                {!loading && simulations.length === 0 && (
+                    <strong>
+                        <p className="text-center mt-30 text-gray-500">
+                            Você ainda não possui simulações salvas
+                        </p>
+                    </strong>
+                )}
+
+                {simulations.map((simulation) => (
+                    <div
+                        key={simulation.id}
+                        className="grid grid-cols-5 gap-4 px-4 py-4 border-b bg-[#fdfdfd] hover:bg-[#f5f5f5] transition-all duration-200 text-sm font-semibold"
+                    >
+                        <span>{formatDate(simulation.created_at)}</span>
+                        <span>{moneyFormatter.format(simulation.valor_imovel)}</span>
+                        <span>{formatPrazo(simulation)}</span>
+                        <span>{moneyFormatter.format(simulation.economia)}</span>
+
+                        <div className="flex gap-2 px-24">
+                            <button
+                                title="Ver detalhes" className="p-0.5 rounded-sm bg-blue-300 hover:bg-blue-400" 
+                                onClick={() => handleView(simulation)}>
+                                <Eye />
+                            </button>
+
+                            <button
+                                title="Excluir" className="p-0.5 rounded-sm bg-gray-200 hover:bg-gray-400" disabled={deletingId === simulation.id} 
+                                onClick={() => void handleDelete(simulation.id)}>
+                                <Trash2 />
+                            </button>
+                        </div>
+                    </div>
+                ))}
             </div>
         </div>
-       
-    </>
-    );
-}
+    </div>
+)};
