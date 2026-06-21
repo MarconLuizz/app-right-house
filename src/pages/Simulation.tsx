@@ -145,7 +145,7 @@ export default function Simulation() {
                     */}
                     <div className="flex flex-col gap-2">
                         <label>Valor do imóvel</label>
-                        <input className="h-[41px] rounded-[10px] border border-solid border-[#ccc] bg-[#f8f8f8] px-[15px] py-0 text-base" type="number" min="1" value={form.valorImovel} onChange={(event) => updateField("valorImovel", event.target.value)} required />
+                        <input data-testid="input-valor-imovel" className="h-[41px] rounded-[10px] border border-solid border-[#ccc] bg-[#f8f8f8] px-[15px] py-0 text-base" type="number" min="1" value={form.valorImovel} onChange={(event) => updateField("valorImovel", event.target.value)} required />
                     </div>
                     {/*
                        - campos de perfil/preferência vira perfil editável ou entra em alguma regra de recomendação.
@@ -179,25 +179,26 @@ export default function Simulation() {
                     */}
                     <div className="flex flex-col gap-2">
                         <label>Prazo do financiamento e consórcio (em meses)</label>
-                        <input className="h-[41px] rounded-[10px] border border-solid border-[#ccc] bg-[#f8f8f8] px-[15px] py-0 text-base" type="number" min={PRAZO_MINIMO_MESES} max={PRAZO_MAXIMO_MESES} value={form.prazoMeses} onChange={(event) => updateField("prazoMeses", event.target.value)} required />
+                        <input data-testid="input-prazo-meses" className="h-[41px] rounded-[10px] border border-solid border-[#ccc] bg-[#f8f8f8] px-[15px] py-0 text-base" type="number" min={PRAZO_MINIMO_MESES} max={PRAZO_MAXIMO_MESES} value={form.prazoMeses} onChange={(event) => updateField("prazoMeses", event.target.value)} required />
                         <p className="text-sm text-gray-500">Informe um prazo entre {PRAZO_MINIMO_MESES} e {PRAZO_MAXIMO_MESES} meses.</p>
                     </div>
                     <div className="flex flex-col gap-2">
                         <label>Valor de entrada</label>
-                        <input className="h-[41px] rounded-[10px] border border-solid border-[#ccc] bg-[#f8f8f8] px-[15px] py-0 text-base" type="number" min="0" value={form.valorEntrada} onChange={(event) => updateField("valorEntrada", event.target.value)} required />
+                        <input data-testid="input-valor-entrada" className="h-[41px] rounded-[10px] border border-solid border-[#ccc] bg-[#f8f8f8] px-[15px] py-0 text-base" type="number" min="0" value={form.valorEntrada} onChange={(event) => updateField("valorEntrada", event.target.value)} required />
                     </div>
                     <div className="flex flex-col gap-2">
                         <label>Taxa de juros anual do financiamento</label>
-                        <input className="h-[41px] rounded-[10px] border border-solid border-[#ccc] bg-[#eef2ff] px-[15px] py-0 text-base text-gray-600" type="text" value={`${TAXA_JUROS_ANUAL_FIXA}% ao ano`} readOnly />
+                        <input data-testid="input-taxa-juros-financiamento" className="h-[41px] rounded-[10px] border border-solid border-[#ccc] bg-[#eef2ff] px-[15px] py-0 text-base text-gray-600" type="text" value={`${TAXA_JUROS_ANUAL_FIXA}% ao ano`} readOnly />
                     </div>
                     <div className="flex flex-col gap-2">
                         <label>Taxa administrativa do consórcio</label>
-                        <input className="h-[41px] rounded-[10px] border border-solid border-[#ccc] bg-[#ecfdf5] px-[15px] py-0 text-base text-gray-600" type="text" value={`${TAXA_ADMIN_CONSORCIO_FIXA}% ao ano`} readOnly />
+                        <input data-testid="input-taxa-admin-consorcio" className="h-[41px] rounded-[10px] border border-solid border-[#ccc] bg-[#ecfdf5] px-[15px] py-0 text-base text-gray-600" type="text" value={`${TAXA_ADMIN_CONSORCIO_FIXA}% ao ano`} readOnly />
                     </div>
                     <div className="flex flex-col gap-2 ">
                         <div className="flex items-center gap-3">
                             <label>Deseja utilizar FGTS?</label>
                             <button
+                                data-testid="toggle-usar-fgts"
                                 type="button"
                                 onClick={updateFgtsUsage}
                                 className={`h-6 w-12 rounded-full transition duration-300 ${profileForm.usarFgts ? "bg-green-500" : "bg-gray-400"}`}
@@ -208,6 +209,7 @@ export default function Simulation() {
                         {profileForm.usarFgts && (
                             <div className="flex flex-col gap-2">
                                 <input
+                                    data-testid="input-valor-fgts"
                                     className="h-[41px] rounded-[10px] border border-[#ccc] bg-[#f8f8f8] px-[15px] text-base"
                                     type="number"
                                     min="0"
@@ -220,6 +222,7 @@ export default function Simulation() {
                     </div>
                     <div className="mb-4 mt-[30px] flex w-full flex-wrap gap-3">
                         <Button
+                            data-testid="btn-ver-resultado"
                             type="submit"
                             form="simulation-form"
                             className="rounded-2.5 border-[none] bg-[rgb(67,101,250)] px-9 py-3 text-[white]"
@@ -237,10 +240,10 @@ export default function Simulation() {
                     <ResultCard simulation={simulation} /> 
                     <div className="flex grid-cols-2 gap-8 mt-8">
                         {isAuthenticated && (
-                                <Button className="" type="button" variant="defaultV2" onClick={handleSave} disabled={saving}>{saving ? "Salvando..." : "Salvar simulação"}</Button>
+                                <Button data-testid="btn-salvar-simulacao" className="" type="button" variant="defaultV2" onClick={handleSave} disabled={saving}>{saving ? "Salvando..." : "Salvar simulação"}</Button>
                         )}
                         <div className="mb-4 flex justify-end gap-3">
-                            <Button type="button" variant="outlineV2" onClick={() => setSimulation(null)}>Nova simulação</Button>
+                            <Button data-testid="btn-nova-simulacao" type="button" variant="outlineV2" onClick={() => setSimulation(null)}>Nova simulação</Button>
                         </div>
                         {!isAuthenticated && (
                             <p className="mt-2 text-sm text-gray-500">

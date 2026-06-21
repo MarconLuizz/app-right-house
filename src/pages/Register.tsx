@@ -46,20 +46,20 @@ export default function Register() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <Label className="text-foreground">Nome</Label>
-              <Input type="text" placeholder="Seu nome completo" value={name} onChange={(e) => setName(e.target.value)} required />
+              <Input data-testid="input-nome-cadastro" type="text" placeholder="Seu nome completo" value={name} onChange={(e) => setName(e.target.value)} required />
             </div>
 
             <div>
               <Label className="text-foreground">Email</Label>
-              <Input type="email" placeholder="seu@email.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
+              <Input data-testid="input-email-cadastro" type="email" placeholder="seu@email.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
             </div>
 
             <div>
               <Label className="text-foreground">Senha</Label>
-              <Input type="password" placeholder="********" value={password} onChange={(e) => setPassword(e.target.value)} required minLength={6} />
+              <Input data-testid="input-senha-cadastro" type="password" placeholder="********" value={password} onChange={(e) => setPassword(e.target.value)} required minLength={6} />
             </div>
 
-            <Button type="submit" className="w-full" disabled={loading}>
+            <Button data-testid="btn-criar-conta" type="submit" className="w-full" disabled={loading}>
               <UserPlus className="h-4 w-4" />
               {loading ? "Criando..." : "Criar conta"}
             </Button>

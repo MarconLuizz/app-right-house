@@ -84,8 +84,9 @@ export default function MySimulations() {
     <div className="bg-[#f9f9fa] m-0 pb-10 pt-10">
         <div className="w-[65%] mx-auto bg-white p-4">
 
-            <button className="mb-4 text-sm text-blue-500" onClick={() => setSelectedSimulation(null)}>← Voltar para o histórico</button> 
+            <button data-testid="btn-voltar-historico" className="mb-4 text-sm text-blue-500" onClick={() => setSelectedSimulation(null)}>← Voltar para o histórico</button> 
 
+            <div data-testid="detalhe-simulacao-salva">
             <ResultCard
                 simulation={{
                     input: {
@@ -114,11 +115,12 @@ export default function MySimulations() {
                     }
                 }}
             />
+            </div>
         </div>
     </div>
     ) : (
     <div className="bg-[#f9f9fa] m-0 pb-10 pt-10">
-        <div className="w-[65%] min-h-180 bg-white mx-auto p-2.5">
+        <div data-testid="historico-simulacoes" className="w-[65%] min-h-180 bg-white mx-auto p-2.5">
 
             <div className="flex flex-col">
                 <div className="grid grid-cols-5 gap-4 px-4 pt-2 pb-4 border-b mb-1">
@@ -129,12 +131,12 @@ export default function MySimulations() {
                 </div>
 
                 {loading && (
-                    <p className="ml-4 mt-2 text-gray-500">Carregando histórico...</p>
+                    <p data-testid="historico-carregando" className="ml-4 mt-2 text-gray-500">Carregando histórico...</p>
                 )}
 
                 {!loading && simulations.length === 0 && (
                     <strong>
-                        <p className="text-center mt-30 text-gray-500">
+                        <p data-testid="mensagem-historico-vazio" className="text-center mt-30 text-gray-500">
                             Você ainda não possui simulações salvas
                         </p>
                     </strong>
@@ -143,21 +145,26 @@ export default function MySimulations() {
                 {simulations.map((simulation) => (
                     <div
                         key={simulation.id}
+                        data-testid="linha-simulacao"
                         className="grid grid-cols-5 gap-4 px-4 py-4 border-b bg-[#fdfdfd] hover:bg-[#f5f5f5] transition-all duration-200 text-sm font-semibold"
                     >
-                        <span>{formatDate(simulation.created_at)}</span>
-                        <span>{moneyFormatter.format(simulation.valor_imovel)}</span>
-                        <span>{formatPrazo(simulation)}</span>
-                        <span>{moneyFormatter.format(simulation.economia)}</span>
+                        <span data-testid="historico-data">{formatDate(simulation.created_at)}</span>
+                        <span data-testid="historico-valor-imovel">{moneyFormatter.format(simulation.valor_imovel)}</span>
+                        <span data-testid="historico-prazo">{formatPrazo(simulation)}</span>
+                        <span data-testid="historico-economia">{moneyFormatter.format(simulation.economia)}</span>
 
                         <div className="flex gap-2 px-24">
                             <button
+                                data-testid="btn-visualizar-simulacao"
+                                aria-label="Visualizar simulação"
                                 title="Ver detalhes" className="p-0.5 rounded-sm bg-blue-300 hover:bg-blue-400" 
                                 onClick={() => handleView(simulation)}>
                                 <Eye />
                             </button>
 
                             <button
+                                data-testid="btn-excluir-simulacao"
+                                aria-label="Excluir simulação"
                                 title="Excluir" className="p-0.5 rounded-sm bg-gray-200 hover:bg-gray-400" disabled={deletingId === simulation.id} 
                                 onClick={() => void handleDelete(simulation.id)}>
                                 <Trash2 />

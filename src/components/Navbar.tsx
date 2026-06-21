@@ -63,6 +63,7 @@ export default function Navbar() {
           ))}
           {isAuthenticated && (
             <Link
+              data-testid="link-historico"
               to="/simulation/history"
               className={
                 [
@@ -77,13 +78,13 @@ export default function Navbar() {
         </nav>
 
         {isAuthenticated ? (
-          <Button variant="outline" size="sm" onClick={handleLogout}>
+          <Button data-testid="btn-sair" variant="outline" size="sm" onClick={handleLogout}>
             <LogOut className="h-4 w-4" />
             Sair
           </Button>
         ) : (
           <Button asChild size="sm">
-            <Link to="/auth/login">Entrar</Link>
+            <Link data-testid="link-entrar" to="/auth/login">Entrar</Link>
           </Button>
         )}
       </div>
