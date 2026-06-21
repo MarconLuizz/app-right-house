@@ -91,6 +91,7 @@ export default function MySimulations() {
                     input: {
                         valorImovel: selectedSimulation.valor_imovel,
                         valorEntrada: selectedSimulation.valor_entrada,
+                        valorFgts: selectedSimulation.valor_fgts ?? 0,
                         prazoMeses: selectedSimulation.prazo_meses ?? 0,
                         taxaJurosAnual: selectedSimulation.taxa_juros,
                         taxaAdminConsorcio: selectedSimulation.taxa_admin,

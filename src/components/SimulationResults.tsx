@@ -58,25 +58,25 @@ function getChartY(value: number, maxValue: number, height: number) {
 
 function ComparisonChart({ simulation }: { simulation: SimulationResponse }) {
     const { financiamento, consorcio } = simulation.result;
-    const entrada = simulation.input.valorEntrada;
+    const valorEntradaTotal = simulation.input.valorEntrada + simulation.input.valorFgts;
     const [hoveredMonth, setHoveredMonth] = useState<number | null>(null);
 
     const financingSeries = useMemo(
         () =>
             Array.from(
                 { length: financiamento.prazoMeses + 1 },
-                (_, index) => entrada + financiamento.parcelaMensal * index,
+                (_, index) => valorEntradaTotal + financiamento.parcelaMensal * index,
             ),
-        [entrada, financiamento.parcelaMensal, financiamento.prazoMeses],
+        [valorEntradaTotal, financiamento.parcelaMensal, financiamento.prazoMeses],
     );
 
     const consortiumSeries = useMemo(
         () =>
             Array.from(
                 { length: consorcio.prazoMeses + 1 },
-                (_, index) => entrada + consorcio.parcelaMensal * index,
+                (_, index) => valorEntradaTotal + consorcio.parcelaMensal * index,
             ),
-        [consorcio.parcelaMensal, consorcio.prazoMeses, entrada],
+        [consorcio.parcelaMensal, consorcio.prazoMeses, valorEntradaTotal],
     );
 
     const maxValue = Math.max(

@@ -19,6 +19,7 @@ const TAXA_ADMIN_CONSORCIO_FIXA = 1.15;
 const initialForm: SimulationInput = {
     valorImovel: 500000,
     valorEntrada: 50000,
+    valorFgts: 0,
     prazoMeses: 240,
     taxaJurosAnual: TAXA_JUROS_ANUAL_FIXA,
     taxaAdminConsorcio: TAXA_ADMIN_CONSORCIO_FIXA,
@@ -34,7 +35,6 @@ const initialProfileForm = {
     modalidadeTrabalho: "CLT",
     quandoComprar: "Em até 6 meses",
     usarFgts: false,
-    valorFgts: "",
 };
 
 export default function Simulation() {
@@ -53,7 +53,7 @@ export default function Simulation() {
         return subscribeToAuthChanges(syncAuthState);
     }, []);
 
-    const updateField = (field: "valorImovel" | "valorEntrada" | "prazoMeses", value: string) => {
+    const updateField = (field: "valorImovel" | "valorEntrada" | "valorFgts" | "prazoMeses", value: string) => {
         setForm((currentForm) => ({
             ...currentForm,
             [field]: Number(value),
@@ -65,6 +65,16 @@ export default function Simulation() {
             ...currentForm,
             [field]: value,
         }));
+    };
+
+    const updateFgtsUsage = () => {
+        const shouldUseFgts = !profileForm.usarFgts;
+
+        updateProfileField("usarFgts", shouldUseFgts);
+
+        if (!shouldUseFgts) {
+            updateField("valorFgts", "0");
+        }
     };
 
     const handleCalculate = async (event: React.FormEvent) => {
@@ -178,7 +188,7 @@ export default function Simulation() {
                             <label>Deseja utilizar FGTS?</label>
                             <button
                                 type="button"
-                                onClick={() => updateProfileField("usarFgts", !profileForm.usarFgts)}
+                                onClick={updateFgtsUsage}
                                 className={`h-6 w-12 rounded-full transition duration-300 ${profileForm.usarFgts ? "bg-green-500" : "bg-gray-400"}`}
                             >
                                 <div className={`h-5 w-5 rounded-full bg-white transition duration-300 ${profileForm.usarFgts ? "translate-x-6" : "translate-x-1"}`} />
@@ -188,10 +198,11 @@ export default function Simulation() {
                             <div className="flex flex-col gap-2">
                                 <input
                                     className="h-[41px] rounded-[10px] border border-[#ccc] bg-[#f8f8f8] px-[15px] text-base"
-                                    type="text"
+                                    type="number"
+                                    min="0"
                                     placeholder="R$ 00000,00"
-                                    value={profileForm.valorFgts}
-                                    onChange={(event) => updateProfileField("valorFgts", event.target.value)}
+                                    value={form.valorFgts}
+                                    onChange={(event) => updateField("valorFgts", event.target.value)}
                                 />
                             </div>
                         )}

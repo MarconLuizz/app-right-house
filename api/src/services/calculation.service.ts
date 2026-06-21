@@ -45,7 +45,8 @@ export function calcularConsorcio(
 }
 
 export function simular(input: SimulationInput): SimulationResult {
-    const valorFinanciado = input.valorImovel - input.valorEntrada
+    const valorEntradaTotal = input.valorEntrada + input.valorFgts
+    const valorFinanciado = input.valorImovel - valorEntradaTotal
     const prazoMeses = input.prazoMeses
 
     const financiamentoBase = calcularFinanciamento(
@@ -62,12 +63,12 @@ export function simular(input: SimulationInput): SimulationResult {
 
     const financiamento = {
         ...financiamentoBase,
-        totalPago: financiamentoBase.totalPago + input.valorEntrada,
+        totalPago: financiamentoBase.totalPago + valorEntradaTotal,
     }
 
     const consorcio = {
         ...consorcioBase,
-        totalPago: consorcioBase.totalPago + input.valorEntrada,
+        totalPago: consorcioBase.totalPago + valorEntradaTotal,
     }
 
     const economia = Math.abs(financiamento.totalPago - consorcio.totalPago)
